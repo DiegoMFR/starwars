@@ -1,7 +1,7 @@
 import './style.scss';
 
 function component() {
-    fetch('http://swapi.dev/api/people/?page=1')
+    fetch('https://swapi.dev/api/people/?page=1')
         .then(response => response.json())
         .then(data => populate(data));
 }
