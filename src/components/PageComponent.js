@@ -22,7 +22,7 @@ export default class PageComponent {
                 document.body.removeChild(page);
             }
         });
-        const worldSection = new SectionComponent(data.homeworld);
+        const worldSection = new SectionComponent(data.homeworld.replace(/^http:\/\//i, 'https://'));
         worldSection.fetchData().then(
             (result) => {
                 const worldContainer = document.getElementById('world-section');
