@@ -1,16 +1,74 @@
 
-.main-container {
+@font-face {
+    font-family: 'Roboto';
+    src: url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,900&display=swap");
+}
+
+
+$pale-white: #c1c1c1;
+$mid-gray: #3b3b3b;
+$white: white;
+$dark-gray: #242424;
+$shadow-color: rgba(0,0,0,.3);
+
+%base-list {
+    padding: 0;
+    list-style: none;
     display: flex;
     flex-wrap: wrap;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    padding: 0;
+    background: $dark-gray;
+    color: $pale-white;
+}
+
+.main-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-tools {
+    position: absolute;
+}
+
+.main-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+
     &--item {
         padding: 5px;
         flex-basis: 100%;
         box-sizing: border-box;
 
-        &--content {
-            padding: 10px;
+        &--btn {
+            padding: 14px;
+            border: none;
             border-radius: 5px;
-            background: #efefef;
+            background: $mid-gray;
+            background-image: linear-gradient(0deg, $mid-gray 45%, $pale-white 50%, $mid-gray 55%);
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            font-weight: 900;
+            font-style: italic;
+            color: $pale-white;
+            transition: all ease-in-out 0.3s;
+            box-shadow: 0px 0px 10px 28px  inset rgba($color: $mid-gray, $alpha: 1);
+            font-size: 1.2rem;
+            &:hover {
+                box-shadow: 0 0 0 inset rgba($color: $mid-gray, $alpha: 0.2);
+                background-size: 100% 100%;
+                color: $white;
+            }
+
         }
 
         @media (min-width: 480px) {
@@ -19,5 +77,86 @@
         @media (min-width: 960px) {
             flex-basis: 33%;
         }
+    }
+}
+
+.character-modal {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    &--page {
+        padding: 30px;
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 20px $shadow-color;
+        border-radius: 5px;
+        color: $pale-white;
+        background: $mid-gray;
+        box-sizing: border-box;
+
+        > h2 {
+            margin-top: 0;
+        }
+
+        &--section {
+            border-radius: 5px;
+            padding: 15px;
+            border: 1px solid $pale-white;
+            margin-top: 40px;
+            > h3 {
+                margin-top: -31px;
+                position: absolute;
+                display: inline-block;
+                background: $mid-gray;
+                font-weight: 100;
+            }
+        }
+    }
+
+    .simple-list {
+        @extend %base-list;
+        margin: 0 -5px;
+        li {
+            padding: 5px;
+            & > span {
+                display: inline-block;
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid $pale-white;
+            }
+        }
+    }
+
+    .button-list {
+        @extend %base-list;
+        margin: -5px;
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            background-color: $pale-white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    .close {
+        position: absolute;
+        cursor: pointer;
+        right: 0;
+        top: 0;
+        display: inline-block;
+        border-radius: 0 5px 0;
+        box-shadow: 1px -1px 3px $shadow-color inset;
+        padding: 10px 15px;
+        font-style: normal;
     }
 }
