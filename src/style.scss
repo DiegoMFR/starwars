@@ -80,6 +80,11 @@ body {
     }
 }
 
+@keyframes fadeIn {
+    0%   {opacity: 0;}
+    100% {opacity: 1;}
+}
+
 .character-modal {
     display: block;
     position: absolute;
@@ -91,7 +96,8 @@ body {
         padding: 30px;
         position: absolute;
         width: 80%;
-        height: 80%;
+        height: auto;
+        max-height: 80%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -100,6 +106,9 @@ body {
         color: $pale-white;
         background: $mid-gray;
         box-sizing: border-box;
+        transition: all  0.5s ease-out;
+        overflow: hidden;
+        animation: fadeIn 0.3s;
 
         > h2 {
             margin-top: 0;
@@ -110,13 +119,16 @@ body {
             padding: 15px;
             border: 1px solid $pale-white;
             margin-top: 40px;
+            height:auto;
+            transform:scaleY(1);
             > h3 {
                 margin-top: -31px;
                 position: absolute;
                 display: inline-block;
                 background: $mid-gray;
                 font-weight: 100;
-            }
+            };
+            animation: fadeIn 0.3s;
         }
     }
 
@@ -127,7 +139,7 @@ body {
             padding: 5px;
             & > span {
                 display: inline-block;
-                padding: 8px;
+                padding: 10px 15px;
                 border-radius: 5px;
                 border: 1px solid $pale-white;
             }

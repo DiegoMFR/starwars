@@ -23,7 +23,7 @@ export default function contentBuilders () {
         listItem.classList.add('main-list--item');
         listItem.setAttribute('data-index', (index + 1).toString());
         listItem.innerHTML = 
-            `<button class="main-list--item--btn js-list-item" data-url="${url}">
+            `<button class="main-list--item--btn js-list-item" data-url="${getHttps(url)}">
                 ${name}
             </button>`;
         return listItem;
@@ -32,7 +32,7 @@ export default function contentBuilders () {
     const getCharacterPage = function(data) {
         const {
             name, height, mass, hair_color: hairColor, eye_color: eyeColor,
-            birth_year: birthYear, gender, homeworld
+            birth_year: birthYear, gender,
         } = data;
         const page = document.createElement('section');
         page.classList.add('character-modal');
@@ -43,6 +43,7 @@ export default function contentBuilders () {
                 <h2>${name}</h2>
                 <ul class="simple-list">
                     <li> <span> Height: ${height} </span> </li>
+                    <li> <span> Mass: ${mass} </span> </li>
                     <li> <span> Hair: ${hairColor} </span> </li>
                     <li> <span> Eyes: ${eyeColor} </span> </li>
                     <li> <span> Birthday: ${birthYear} </span> </li>
@@ -84,9 +85,16 @@ export default function contentBuilders () {
         let html = ''
         residents.forEach(resident => {
             html += 
-            `<li> <button class="js-resident" data-url= ${resident}> ${resident} </button></li>`;
+            `<li> <button class="js-resident" data-url= ${getHttps(resident)}> ${resident} </button></li>`;
         })
         return html;
+    }
+
+    /**
+     * @param {string} url
+     */
+    const getHttps = function (url) {
+        return url.replace(/^http:\/\//i, 'https://');
     }
 
     return {
