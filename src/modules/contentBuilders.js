@@ -35,22 +35,18 @@ export default function contentBuilders () {
             birth_year: birthYear, gender,
         } = data;
         const page = document.createElement('section');
-        page.classList.add('character-modal');
-        page.classList.add('js-close-modal');
+        page.classList.add('character-modal--page');
         page.innerHTML = 
-            `<div class="character-modal--page">
-                <i class="close js-close-modal" name="close" role="button"> &#10005 </i>
-                <h2>${name}</h2>
-                <ul class="simple-list">
-                    <li> <span> Height: ${height} </span> </li>
-                    <li> <span> Mass: ${mass} </span> </li>
-                    <li> <span> Hair: ${hairColor} </span> </li>
-                    <li> <span> Eyes: ${eyeColor} </span> </li>
-                    <li> <span> Birthday: ${birthYear} </span> </li>
-                    <li> <span> Gender: ${gender} </span> </li>
-                </ul>
-                <div id="world-section"> loading.. </div>
-            </div>`;
+            `<i class="close js-close-modal" name="close" role="button"> &#10005 </i>
+            <h2>${name}</h2>
+            <ul class="simple-list">
+                <li> <span> Height: ${height} </span> </li>
+                <li> <span> Mass: ${mass} </span> </li>
+                <li> <span> Hair: ${hairColor} </span> </li>
+                <li> <span> Eyes: ${eyeColor} </span> </li>
+                <li> <span> Birthday: ${birthYear} </span> </li>
+                <li> <span> Gender: ${gender} </span> </li>
+            </ul>`;
         return page;
     }
 
@@ -61,22 +57,25 @@ export default function contentBuilders () {
             terrain, surface_water: surfaceWater, population
         } = data;
         const section = document.createElement('section');
-        section.classList.add('character-modal--page--section');
-        section.innerHTML = `<h3>Planet ${name}</h3>
-        <ul class="simple-list">
-            <li> <span> Rotation period: ${rotationPeriod} </span> </li>
-            <li> <span> Orbital Period: ${orbitalPeriod} </span> </li>
-            <li> <span> Diameter: ${diameter} </span> </li>
-            <li> <span> Climate: ${climate} </span> </li>
-            <li> <span> Gravity: ${gravity} </span> </li>
-            <li> <span> Terrain: ${terrain} </span> </li>
-            <li> <span> Surface water: ${surfaceWater} </span> </li>
-            <li> <span> Population: ${population} </span> </li>
-        </ul>
-        <h4> Other residents: </h4>
-        <ul class="button-list">
-            ${getResidents(residents)}
-        </ul>`;
+        section.setAttribute('id', 'world-section');
+        section.innerHTML = 
+        `<div class="character-modal--page--section"> 
+            <h3>Planet ${name}</h3>
+            <ul class="simple-list">
+                <li> <span> Rotation period: ${rotationPeriod} </span> </li>
+                <li> <span> Orbital Period: ${orbitalPeriod} </span> </li>
+                <li> <span> Diameter: ${diameter} </span> </li>
+                <li> <span> Climate: ${climate} </span> </li>
+                <li> <span> Gravity: ${gravity} </span> </li>
+                <li> <span> Terrain: ${terrain} </span> </li>
+                <li> <span> Surface water: ${surfaceWater} </span> </li>
+                <li> <span> Population: ${population} </span> </li>
+            </ul>
+            <h4> Other residents: </h4>
+            <ul class="button-list">
+                ${getResidents(residents)}
+            </ul>
+        </div>`;
 
         return section;
     }
@@ -97,9 +96,14 @@ export default function contentBuilders () {
         return url.replace(/^http:\/\//i, 'https://');
     }
 
+    const getPlaceholder = function () {
+        return '<div class="loading-sign"> Loading... </div>'
+    }
+
     return {
         getCharacterList,
         getCharacterPage,
-        getPlanetSection
+        getPlanetSection,
+        getPlaceholder
     }
 }

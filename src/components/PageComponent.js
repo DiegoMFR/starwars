@@ -7,28 +7,36 @@ export default class PageComponent {
      * @param {RequestInfo} url
      */
     constructor(url) {
+        this.placeholder = document.createElement('div');
+        this.placeholder.classList.add('character-modal', 'js-close-modal');
+        this.placeholder.innerHTML = contentBuilders().getPlaceholder();
+        this.fetchData(url);
+        return this.placeholder;
+    }
+
+    fetchData(url) {
         fetch(url)
-            .then(response => response.json())
-            .then(data => this.buildPage(data));
+        .then(response => response.json())
+        .then(data => this.buildPage(data));
     }
 
     buildPage(data) {
-        const page = contentBuilders().getCharacterPage(data);
-        document.body.appendChild(page);
-        document.body.addEventListener('click', function closeListener (e) {
+        const worldSection = new SectionComponent(data.homeworld.replace(/^http:\/\//i, 'https://'));
+        const characterPage = contentBuilders().getCharacterPage(data);
+        characterPage.appendChild(worldSection);
+        this.placeholder.innerHTML = '';
+        this.placeholder.appendChild(characterPage);
+
+        /**
+         * @param {Event} e
+         */
+        const closeListener = (e) => {
             const elem = e.target;
             if(elem.classList.contains('js-close-modal')) {
-                document.body.removeEventListener('click', closeListener);
-                document.body.removeChild(page);
+                characterPage.removeEventListener('click', closeListener);
+                this.placeholder.remove();
             }
-        });
-        const worldSection = new SectionComponent(data.homeworld.replace(/^http:\/\//i, 'https://'));
-        worldSection.fetchData().then(
-            (result) => {
-                const worldContainer = document.getElementById('world-section');
-                worldContainer.textContent = '';
-                worldContainer.appendChild(result);
-            }
-        );
+        }
+        this.placeholder.addEventListener('click', closeListener);
     }    
 }

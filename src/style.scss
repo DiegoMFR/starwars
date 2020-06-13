@@ -92,12 +92,20 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
+    background: $shadow-color;
+
+    > .loading-sign {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
     &--page {
         padding: 30px;
         position: absolute;
         width: 80%;
         height: auto;
-        max-height: 80%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -112,6 +120,7 @@ body {
 
         > h2 {
             margin-top: 0;
+            font-style: italic;
         }
 
         &--section {
@@ -170,5 +179,13 @@ body {
         box-shadow: 1px -1px 3px $shadow-color inset;
         padding: 10px 15px;
         font-style: normal;
+        background: $dark-gray;
+    }
+
+    .loading-sign {
+        background-color: $mid-gray;
+        border-radius: 5px;
+        padding: 30px;
+        animation: fadeIn 0.3s;
     }
 }

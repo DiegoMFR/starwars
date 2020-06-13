@@ -26,6 +26,7 @@ export default class ListComponent {
             if(elem.classList.contains('js-list-item')) {
                 const url = elem.getAttribute('data-url');
                 const page = new PageComponent(url);
+                document.body.appendChild(page);
             }
         });
         return characterList;

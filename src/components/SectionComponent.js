@@ -7,13 +7,16 @@ export default class SectionComponent {
      */
     constructor(url) {
         this.url = url;
+        this.placeholder = document.createElement('div');
+        this.placeholder.innerHTML = contentBuilders().getPlaceholder();
+        this.fetchData();
+        return this.placeholder;
     }
 
-    async fetchData() {
-        const section = await fetch(this.url)
-            .then(response => response.json())
-            .then(data => this.buildSection(data)); 
-        return section;
+    fetchData() {
+        fetch(this.url)
+        .then(response => response.json())
+        .then(data => this.buildSection(data)); 
     }
 
     /**
@@ -29,6 +32,7 @@ export default class SectionComponent {
                 const page = new PageComponent(url);
             }
         });
-        return planetSection;
+        this.placeholder.innerHTML = '';
+        this.placeholder.appendChild(planetSection);
     }
 }
