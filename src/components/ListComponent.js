@@ -3,15 +3,14 @@ import contentBuilders from "../modules/contentBuilders";
 
 export default class ListComponent {
 
-    constructor(url) {
-        this.url = url;
+    constructor() {
+        this.placeholder = contentBuilders().getPlaceholder();
     }
 
-    async fetchData() {
-        const list = await fetch(this.url)
-            .then(response => response.json())
-            .then(data => this.populate(data));
-        return list
+    fetchData(url) {
+       fetch(url)
+        .then(response => response.json())
+        .then(data => this.populate(data));
     }
 
 
@@ -25,10 +24,12 @@ export default class ListComponent {
             const elem = e.target;
             if(elem.classList.contains('js-list-item')) {
                 const url = elem.getAttribute('data-url');
-                const page = new PageComponent(url);
-                document.body.appendChild(page);
+                const characterPage = new PageComponent();
+                document.body.appendChild(characterPage.placeholder);
+                characterPage.fetchData(url);
             }
         });
-        return characterList;
+        this.placeholder.innerHTML = '';
+        this.placeholder.appendChild(characterList);
     }
 }

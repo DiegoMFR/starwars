@@ -3,33 +3,35 @@ import PageComponent from "./PageComponent";
 
 export default class SectionComponent {
     /**
-     * @param {RequestInfo} url
+     * @param {object} caller
      */
-    constructor(url) {
-        this.url = url;
-        this.placeholder = document.createElement('div');
-        this.placeholder.innerHTML = contentBuilders().getPlaceholder();
-        this.fetchData();
-        return this.placeholder;
+    constructor(caller) {
+        this.placeholder = contentBuilders().getPlaceholder();
+        this.caller = caller;
     }
 
-    fetchData() {
-        fetch(this.url)
+    /**
+     * @param {RequestInfo} url
+     */
+    fetchData(url) {
+        fetch(url)
         .then(response => response.json())
         .then(data => this.buildSection(data)); 
     }
 
     /**
      * @param {{ name: any; residents: any; }} [data]
-     * @returns {Node}
      */
     buildSection(data) {
         const planetSection = contentBuilders().getPlanetSection(data);
-        planetSection.addEventListener('click', function(e) {
+        planetSection.addEventListener('click', (e) => {
             const elem = e.target;
             if(elem.classList.contains('js-resident')) {
                 const url = elem.getAttribute('data-url');
-                const page = new PageComponent(url);
+                const characterPage = new PageComponent();
+                document.body.appendChild(characterPage.placeholder);
+                characterPage.fetchData(url);
+                this.caller.destroy();
             }
         });
         this.placeholder.innerHTML = '';

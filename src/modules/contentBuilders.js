@@ -97,7 +97,9 @@ export default function contentBuilders () {
     }
 
     const getPlaceholder = function () {
-        return '<div class="loading-sign"> Loading... </div>'
+        const placeholder = document.createElement('div');
+        placeholder.innerHTML = '<div class="loading-sign"> Loading... </div>';
+        return placeholder;
     }
 
     return {
