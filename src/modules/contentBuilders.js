@@ -21,7 +21,7 @@ export default function contentBuilders () {
         const { name, url } = dataEl;
         const listItem = document.createElement('li');
         listItem.classList.add('main-list--item');
-        listItem.setAttribute('data-index', (index + 1).toString());
+        listItem.setAttribute('style', `--index: ${(index + 1)};`);
         listItem.innerHTML = 
             `<button class="main-list--item--btn js-list-item" data-url="${getHttps(url)}">
                 ${name}
@@ -102,10 +102,15 @@ export default function contentBuilders () {
         return placeholder;
     }
 
+    const getErrorMessage = function (error) {
+       return `<span class="error"> ${error} </span>`;
+    }
+
     return {
         getCharacterList,
         getCharacterPage,
         getPlanetSection,
-        getPlaceholder
+        getPlaceholder,
+        getErrorMessage
     }
 }

@@ -1,15 +1,9 @@
+@import './variables.scss';
 
 @font-face {
     font-family: 'Roboto';
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,900&display=swap");
+    src: url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,900&display=swap") format('font-woff');
 }
-
-
-$pale-white: #c1c1c1;
-$mid-gray: #3b3b3b;
-$white: white;
-$dark-gray: #242424;
-$shadow-color: rgba(0,0,0,.3);
 
 %base-list {
     padding: 0;
@@ -23,58 +17,94 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     padding: 0;
+    margin: 0;
     background: $dark-gray;
     color: $pale-white;
 }
 
 .main-banner {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    height: 33vh;
+    overflow: hidden;
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        min-height: 33vh;
+        object-position: 50% 30%;
+    }
 }
 
 .main-tools {
-    position: absolute;
+    padding: 1rem;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+
+    #search-input, button {
+        background: transparent;
+        border: 1px solid $pale-white;
+        padding: 1rem;
+        border-radius: 5px;
+        color: $pale-white;
+        margin: 0 2px;
+    }
+    button {
+        padding: 0.96rem;
+        cursor: pointer;
+    }
+
+    #search-input {
+        flex-grow: 1;
+    }
+
+    @media (min-width: $breakpoint-mobile) {
+        #search-input {
+            flex-grow: 0;
+        }
+    }
 }
 
 .main-list {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    padding: 0;
+    padding: 0 0.5rem;
+    margin: 0;
 
     &--item {
-        padding: 5px;
+        order: var(--index);
+        padding: .5rem;
         flex-basis: 100%;
         box-sizing: border-box;
 
         &--btn {
-            padding: 14px;
+            padding: 1.2rem;
             border: none;
             border-radius: 5px;
             background: $mid-gray;
-            background-image: linear-gradient(0deg, $mid-gray 45%, $pale-white 50%, $mid-gray 55%);
             cursor: pointer;
             text-align: center;
             width: 100%;
             font-weight: 900;
             font-style: italic;
             color: $pale-white;
-            transition: all ease-in-out 0.3s;
-            box-shadow: 0px 0px 10px 28px  inset rgba($color: $mid-gray, $alpha: 1);
+            transition: color ease-in-out 0.3s;
             font-size: 1.2rem;
             &:hover {
-                box-shadow: 0 0 0 inset rgba($color: $mid-gray, $alpha: 0.2);
-                background-size: 100% 100%;
                 color: $white;
             }
 
         }
 
-        @media (min-width: 480px) {
+        @media (min-width: $breakpoint-mobile) {
             flex-basis: 50%;
         }
-        @media (min-width: 960px) {
+
+        @media (min-width: $breakpoint-tablet) {
             flex-basis: 33%;
         }
     }
@@ -93,6 +123,7 @@ body {
     width: 100vw;
     height: 100vh;
     background: $shadow-color;
+    overflow: auto;
 
     > .loading-sign {
         position: absolute;
@@ -104,19 +135,23 @@ body {
     &--page {
         padding: 30px;
         position: absolute;
-        width: 80%;
-        height: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 0 20px $shadow-color;
-        border-radius: 5px;
         color: $pale-white;
         background: $mid-gray;
         box-sizing: border-box;
         transition: all  0.5s ease-out;
         overflow: hidden;
         animation: fadeIn 0.3s;
+        min-height: 100%;
+
+        @media (min-width: $breakpoint-mobile) {
+            width: 80%;
+            height: auto;
+            box-shadow: 0 0 20px $shadow-color;
+            border-radius: 5px;
+            position: relative;
+            margin: 30px auto;
+            min-height: 20%;
+        }
 
         > h2 {
             margin-top: 0;
@@ -125,7 +160,7 @@ body {
 
         &--section {
             border-radius: 5px;
-            padding: 15px;
+            padding: 1.2rem;
             border: 1px solid $pale-white;
             margin-top: 40px;
             height:auto;
@@ -145,7 +180,7 @@ body {
         @extend %base-list;
         margin: 0 -5px;
         li {
-            padding: 5px;
+            padding: 0.5rem;
             & > span {
                 display: inline-block;
                 padding: 10px 15px;
@@ -160,7 +195,7 @@ body {
         margin: -5px;
 
         button {
-            padding: 10px;
+            padding: 0.8rem;
             margin: 5px;
             background-color: $pale-white;
             border-radius: 5px;
@@ -177,7 +212,7 @@ body {
         display: inline-block;
         border-radius: 0 5px 0;
         box-shadow: 1px -1px 3px $shadow-color inset;
-        padding: 10px 15px;
+        padding: 0.8rem 1.2rem;
         font-style: normal;
         background: $dark-gray;
     }
@@ -185,7 +220,11 @@ body {
     .loading-sign {
         background-color: $mid-gray;
         border-radius: 5px;
-        padding: 30px;
+        padding: 2.5rem;
         animation: fadeIn 0.3s;
     }
+}
+
+.error {
+    color: red;
 }

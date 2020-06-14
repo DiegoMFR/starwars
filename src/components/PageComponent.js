@@ -11,9 +11,23 @@ export default class PageComponent {
      * @param {RequestInfo} url
      */
     fetchData(url) {
-        fetch(url)
-        .then(response => response.json())
-        .then(data => this.buildPage(data));
+        // cors disabled just for this test
+        fetch(url, { mode: "no-cors" }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch character');
+            }
+        })
+        .then((responseJson) => { this.buildPage(responseJson) })
+        .catch((error) => {
+            const page = document.createElement('section');
+            page.classList.add('character-modal--page');
+            page.innerHTML = contentBuilders().getErrorMessage(error);
+            this.placeholder.innerHTML = '';
+            this.placeholder.appendChild(page);
+            this.addCloseListener();
+        });
     }
 
     /**
@@ -26,14 +40,18 @@ export default class PageComponent {
         worldSection.fetchData(data.homeworld.replace(/^http:\/\//i, 'https://'));
         this.placeholder.innerHTML = '';
         this.placeholder.appendChild(characterPage);
+        this.addCloseListener();
 
+    }
+
+    addCloseListener() {
         /**
          * @param {Event} e
          */
         const closeListener = (e) => {
             const elem = e.target;
-            if(elem.classList.contains('js-close-modal')) {
-                characterPage.removeEventListener('click', closeListener);
+            if (elem.classList.contains('js-close-modal')) {
+                this.placeholder.removeEventListener('click', closeListener);
                 this.destroy();
             }
         }

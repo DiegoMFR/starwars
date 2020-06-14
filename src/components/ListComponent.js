@@ -7,22 +7,34 @@ export default class ListComponent {
         this.placeholder = contentBuilders().getPlaceholder();
     }
 
+    /**
+     * @param {string} url
+     */
     fetchData(url) {
-       fetch(url)
-        .then(response => response.json())
-        .then(data => this.populate(data));
+        // cors disabled just for this test
+        fetch(url, { mode: "no-cors" }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch list');
+            }
+        })
+        .then((responseJson) => { this.buildPage(responseJson) })
+        .catch((error) => {
+            this.placeholder.innerHTML = contentBuilders().getErrorMessage(error);
+        });
     }
 
 
     /**
      * @param {{ results: any; }} data
      */
-    populate(data) {
+    buildPage(data) {
         const characterList = contentBuilders().getCharacterList(data);
 
-        characterList.addEventListener('click', function(e) {
+        characterList.addEventListener('click', function (e) {
             const elem = e.target;
-            if(elem.classList.contains('js-list-item')) {
+            if (elem.classList.contains('js-list-item')) {
                 const url = elem.getAttribute('data-url');
                 const characterPage = new PageComponent();
                 document.body.appendChild(characterPage.placeholder);
@@ -31,5 +43,18 @@ export default class ListComponent {
         });
         this.placeholder.innerHTML = '';
         this.placeholder.appendChild(characterList);
+    }
+
+    sortList(sortFunction) {
+        const nodeList = this.placeholder.getElementsByClassName('main-list--item');
+        const nameList = [...nodeList].map(a => a.innerText);
+        nameList.sort(sortFunction);
+        nameList.forEach((element, index) => {
+            for (const node of nodeList) {
+                if (node.innerText === element) {
+                    node.setAttribute('style', `--index: ${(index + 1)};`);
+                }
+            };
+        });
     }
 }

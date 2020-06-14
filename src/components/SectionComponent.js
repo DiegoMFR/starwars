@@ -14,15 +14,24 @@ export default class SectionComponent {
      * @param {RequestInfo} url
      */
     fetchData(url) {
-        fetch(url)
-        .then(response => response.json())
-        .then(data => this.buildSection(data)); 
+        fetch(url, { mode: "no-cors" }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch planet');
+            }
+        })
+        .then((responseJson) => { this.buildPage(responseJson) })
+        .catch((error) => {
+            console.log(error);
+            this.placeholder.innerHTML = contentBuilders().getErrorMessage(error);
+        });
     }
 
     /**
      * @param {{ name: any; residents: any; }} [data]
      */
-    buildSection(data) {
+    buildPage(data) {
         const planetSection = contentBuilders().getPlanetSection(data);
         planetSection.addEventListener('click', (e) => {
             const elem = e.target;
