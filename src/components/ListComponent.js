@@ -12,7 +12,7 @@ export default class ListComponent {
      */
     fetchData(url) {
         // cors disabled just for this test
-        fetch(url, { mode: "no-cors" }).then((response) => {
+        fetch(url).then((response) => {
             if (response.ok) {
                 return response.json();
             } else {

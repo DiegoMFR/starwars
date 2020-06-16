@@ -14,7 +14,7 @@ export default class SectionComponent {
      * @param {RequestInfo} url
      */
     fetchData(url) {
-        fetch(url, { mode: "no-cors" }).then((response) => {
+        fetch(url).then((response) => {
             if (response.ok) {
                 return response.json();
             } else {
